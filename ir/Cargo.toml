@@ -13,7 +13,7 @@ edition = "2018"
 path = "./ir.rs"
 
 [dependencies]
-cpp_demangle = { version = "0.3.0", default-features = false }
+cpp_demangle = { version = "0.3.2", default-features = false }
 frozen = "1"
 petgraph = "0.5.1"
 rustc-demangle = "0.1.16"
