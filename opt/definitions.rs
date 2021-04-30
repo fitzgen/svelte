@@ -13,7 +13,9 @@ use structopt::StructOpt;
 /// Options for configuring `twiggy`.
 #[derive(Clone, Debug)]
 #[derive(StructOpt)]
-#[structopt(about = "\n`twiggy` is a code size profiler.\n\nIt analyzes a binary's call graph to answer questions like:\n\n* Why was this function included in the binary in the first place?\n\n* What is the retained size of this function? I.e. how much space\n  would be saved if I removed it and all the functions that become\n  dead code after its removal.\n\nUse `twiggy` to make your binaries slim!")]
+#[structopt(
+    about = "\n`twiggy` is a code size profiler.\n\nIt analyzes a binary's call graph to answer questions like:\n\n* Why was this function included in the binary in the first place?\n\n* What is the retained size of this function? I.e. how much space\n  would be saved if I removed it and all the functions that become\n  dead code after its removal.\n\nUse `twiggy` to make your binaries slim!"
+)]
 pub enum Options {
     /// List the top code size offenders in a binary.
     #[structopt(name = "top")]

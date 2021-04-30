@@ -86,9 +86,9 @@ fn sniff_wasm(extension: Option<&OsStr>, data: &[u8]) -> bool {
 fn parse_wasm(data: &[u8]) -> Result<ir::Items, traits::Error> {
     let mut items = ir::ItemsBuilder::new(data.len() as u32);
 
-    let mut module1 = wasmparser::ModuleReader::new(data)?;
+    let mut module1 = wasm_parse::ModuleReader::new(data);
     module1.parse_items(&mut items, ())?;
-    let mut module2 = wasmparser::ModuleReader::new(data)?;
+    let mut module2 = wasm_parse::ModuleReader::new(data);
     module2.parse_edges(&mut items, ())?;
 
     Ok(items.finish())

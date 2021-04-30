@@ -53,6 +53,7 @@ macro_rules! test {
 
             let actual = String::from_utf8_lossy(&output.stdout);
 
+            // @@@ unsure about the test changes I introduced in this patch. =S
             if ::std::env::var("TWIGGY_UPDATE_TEST_EXPECTATIONS").is_ok() {
                 fs::write(expected_path, actual.as_ref()).unwrap();
                 return;
