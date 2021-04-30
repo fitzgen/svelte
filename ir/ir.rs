@@ -50,6 +50,7 @@ impl ItemsBuilder {
         self.items.insert(id, item);
 
         let old_value = self.parsed.insert(id);
+        // panic happen as this is call 2 times with 7,
         assert!(
             old_value,
             "should not parse the same key into multiple items"

@@ -125,12 +125,18 @@ impl<'a> Parse<'a> for wasmparser::ModuleReader<'a> {
                     section.get_data_section_reader()?.parse_items(items, idx)?;
                 }
                 wasmparser::SectionCode::DataCount => {
+                    let msg = "the last iteration of the loop take 7 as id";
+                    dbg!(msg, idx);
                     DataCountSection(section).parse_items(items, idx)?;
                 }
                 wasmparser::SectionCode::Code | wasmparser::SectionCode::Function => {
                     unreachable!("unexpected code or function section found");
                 }
             };
+            if idx == 7 {
+                let msg = "At some point just after the debug above this also is 7 so the panic";
+                dbg!(msg, &idx);
+            }
             let id = Id::section(idx);
             let added = items.size_added() - start;
             let size = sizes
@@ -799,8 +805,10 @@ impl<'a> Parse<'a> for DataCountSection<'a> {
     ) -> Result<(), traits::Error> {
         let range = self.0.range();
         let size = (range.end - range.start) as u32;
+        //dbg!("section", &idx);
         let id = Id::section(idx);
         let name = "\"data count\" section";
+        //dbg!("YEAH", &id);
         items.add_root(ir::Item::new(id, name, size, ir::Misc::new()));
         Ok(())
     }
