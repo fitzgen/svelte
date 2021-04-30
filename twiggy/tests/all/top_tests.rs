@@ -79,3 +79,12 @@ test!(
 
 // Regression test for https://github.com/rustwasm/twiggy/issues/151
 test!(top_mono, "top", "./fixtures/mono.wasm", "-n", "10");
+
+// Threaded modules should not cause a panic.
+test!(
+    top_threaded_module,
+    "top",
+    "-n",
+    "25",
+    "./fixtures/threads.wasm"
+);

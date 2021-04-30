@@ -1,0 +1,74 @@
+```
+;; `threads.wat` fixture
+;;
+;; Built with `wat2wasm --enable-bulk-memory --enable-threads`
+(module
+ (memory $0 1 1)
+ (data (i32.const 0) "")
+ (func $f (data.drop 0))
+)
+```
+
+```
+; wasm-objdump --headers twiggy/tests/all/fixtures/threads.wasm
+
+threads.wasm:	file format wasm 0x1
+
+Sections:
+
+     Type start=0x0000000a end=0x0000000e (size=0x00000004) count: 1
+ Function start=0x00000010 end=0x00000012 (size=0x00000002) count: 1
+   Memory start=0x00000014 end=0x00000018 (size=0x00000004) count: 1
+DataCount start=0x0000001a end=0x0000001b (size=0x00000001) count: 1
+     Code start=0x0000001d end=0x00000024 (size=0x00000007) count: 1
+     Data start=0x00000026 end=0x0000002c (size=0x00000006) count: 1
+```
+
+```
+; wasm-objdump --full-contents twiggy/tests/all/fixtures/threads.wasm
+
+threads.wasm:	file format wasm 0x1
+
+Contents of section Type:
+000000a: 0160 0000                                .`..
+
+Contents of section Function:
+0000010: 0100                                     ..
+
+Contents of section Memory:
+0000014: 0101 0101                                ....
+
+Contents of section DataCount:
+000001a: 01                                       .
+
+Contents of section Code:
+000001d: 0105 00fc 0900 0b                        .......
+
+Contents of section Data:
+0000026: 0100 4100 0b00                           ..A...
+```
+
+```
+; target/debug/twiggy top twiggy/tests/all/fixtures/threads.wasm
+
+ Shallow Bytes │ Shallow % │ Item
+───────────────┼───────────┼───────────────────────
+             8 ┊    18.18% ┊ wasm magic bytes
+             7 ┊    15.91% ┊ code[0]
+             6 ┊    13.64% ┊ code section headers
+             5 ┊    11.36% ┊ data[0]
+             3 ┊     6.82% ┊ type[0]: () -> nil
+             3 ┊     6.82% ┊ type section headers
+             3 ┊     6.82% ┊ memory[0]
+             3 ┊     6.82% ┊ memory section headers
+             3 ┊     6.82% ┊ "data count" section
+             3 ┊     6.82% ┊ data section headers
+            44 ┊   100.00% ┊ Σ [10 Total Rows]
+```
+
+```
+; exa -l --header twiggy/tests/all/fixtures/threads.wasm
+
+Permissions Size User    Date Modified Name
+.rw-rw-r--    44 katelyn 21 Jun 23:07  twiggy/tests/all/fixtures/threads.wasm
+```

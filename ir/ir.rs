@@ -46,14 +46,18 @@ impl ItemsBuilder {
     /// assigned.
     pub fn add_item(&mut self, item: Item) -> Id {
         let id = item.id;
-        self.size_added += item.size;
-        self.items.insert(id, item);
+        let size = item.size;
 
-        let old_value = self.parsed.insert(id);
-        assert!(
-            old_value,
-            "should not parse the same key into multiple items"
-        );
+        match self.items.get_mut(&id) {
+            None => {
+                self.size_added += size;
+                self.items.insert(id, item);
+                self.parsed.insert(id);
+            }
+            Some(prev) => {
+                prev.size += size;
+            }
+        }
 
         id
     }

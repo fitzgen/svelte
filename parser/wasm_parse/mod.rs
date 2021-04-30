@@ -792,6 +792,7 @@ struct DataCountSection<'a>(wasmparser::Section<'a>);
 impl<'a> Parse<'a> for DataCountSection<'a> {
     type ItemsExtra = usize;
 
+    // Worth looking here...
     fn parse_items(
         &mut self,
         items: &mut ir::ItemsBuilder,
