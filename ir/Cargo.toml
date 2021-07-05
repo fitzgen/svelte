@@ -15,7 +15,7 @@ path = "./ir.rs"
 [dependencies]
 cpp_demangle = { version = "0.3.0", default-features = false }
 frozen = "1"
-petgraph = "0.5.1"
+petgraph = "0.6.0"
 rustc-demangle = "0.1.16"
 serde = "1.0.114"
 serde_derive = "1.0.114"
