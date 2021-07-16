@@ -323,7 +323,14 @@ fn parse_names_section<'a>(
     for IndexedSection(_, section) in indexed_sections.iter() {
         if let wasmparser::SectionCode::Custom { name: "name", .. } = section.code {
             for subsection in section.get_name_section_reader()? {
-                let f = match subsection? {
+                // We use a rather old version of wasmparser. This is a workaround
+                // to skip new types of name subsections instead of aborting.
+                let subsection = if let Ok(subsection) = subsection {
+                    subsection
+                } else {
+                    continue;
+                };
+                let f = match subsection {
                     wasmparser::Name::Function(f) => f,
                     _ => continue,
                 };
@@ -512,7 +519,13 @@ impl<'a> Parse<'a> for wasmparser::NameSectionReader<'a> {
         let mut i = 0;
         while !self.eof() {
             let start = self.original_position();
-            let subsection = self.read()?;
+            // We use a rather old version of wasmparser. This is a workaround
+            // to skip new types of name subsections instead of aborting.
+            let subsection = if let Ok(subsection) = self.read() {
+                subsection
+            } else {
+                continue;
+            };
             let size = (self.original_position() - start) as u32;
             let name = match subsection {
                 wasmparser::Name::Module(_) => "\"module name\" subsection",
